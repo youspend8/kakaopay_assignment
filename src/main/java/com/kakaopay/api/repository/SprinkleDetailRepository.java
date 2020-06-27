@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SprinkleDetailRepository extends JpaRepository<SprinkleDetailVO, Long> {
-    public SprinkleDetailVO findByTokenAndAcquiredUserId(String token, String userId);
 }

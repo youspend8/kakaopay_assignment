@@ -11,5 +11,6 @@ import java.util.Optional;
 @Repository
 public interface SprinkleRepository extends JpaRepository<SprinkleVO, String> {
     @Query("SELECT S FROM SprinkleVO S INNER JOIN FETCH S.sprinkleDetail WHERE S.token = :token")
-    public Optional<SprinkleVO> findById(@Param("token") String token);
+    public Optional<SprinkleVO> findById(
+            @Param("token") String token);
 }

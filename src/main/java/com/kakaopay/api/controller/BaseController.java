@@ -1,6 +1,6 @@
 package com.kakaopay.api.controller;
 
-import com.kakaopay.api.entity.ResponseMessage;
+import com.kakaopay.api.helper.response.ResponseMessage;
 import com.kakaopay.api.helper.response.ResponseCode;
 
 public abstract class BaseController {

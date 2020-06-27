@@ -20,9 +20,22 @@ public class SprinkleDetails {
     private List<SprinkleDetailVO> list;
 
     public List<SprinkleDetailVO> filterNotAcquired() {
-        System.out.println("list :: " + list);
         return this.list.stream()
                 .filter(x -> !x.getIsAcquire())
                 .collect(Collectors.toList());
+    }
+
+    public List<SprinkleDetailVO> filterByUserId(String userId) {
+        return this.list.stream()
+                .filter(x -> x.getAcquiredUserId() != null)
+                .filter(x -> x.getAcquiredUserId().equals(userId))
+                .collect(Collectors.toList());
+    }
+
+    public boolean isSoldOut() {
+        long acquireCount = this.list.stream()
+                .filter(SprinkleDetailVO::getIsAcquire)
+                .count();
+        return this.list.size() == acquireCount;
     }
 }

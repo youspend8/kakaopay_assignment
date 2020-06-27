@@ -1,4 +1,4 @@
-package com.kakaopay.api.entity;
+package com.kakaopay.api.helper.response;
 
 import lombok.*;
 

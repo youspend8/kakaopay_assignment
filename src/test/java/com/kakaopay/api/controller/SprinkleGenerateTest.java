@@ -1,36 +1,29 @@
 package com.kakaopay.api.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.kakaopay.api.helper.response.ResponseCode;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@DisplayName("뿌리기 생성")
 public class SprinkleGenerateTest extends AbstractSprinkleControllerTest {
-    private String xRoomId = "294583";
-    private String xUserId = "999";
+    private static String xRoomId = "294583";
+    private static String xUserId = "999";
 
-    @Test
+    @RepeatedTest(100)
+    @DisplayName("100회 반복")
     void generateTest() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/sprinkle/generate")
-                .characterEncoding("UTF-8")
-                .header("X-ROOM-ID", xRoomId)
-                .header("X-USER-ID", xUserId)
-                .param("money", String.valueOf(1000))
-                .param("division", String.valueOf(2)))
-                        .andExpect(MockMvcResultMatchers.status().isOk())
-                        .andDo(MockMvcResultHandlers.print())
-                        .andReturn();
+        JsonNode resultJson = generateSprinkle(xRoomId, xUserId, 1000, 2);
 
-        JsonNode resultJson = convertStringToJson(mvcResult.getResponse().getContentAsString());
+        int responseCode = resultJson.get("code").asInt();
 
-        assertTrue(resultJson.has("token"));
+        assertEquals(responseCode, ResponseCode.CODE_0.getCode());
     }
 }

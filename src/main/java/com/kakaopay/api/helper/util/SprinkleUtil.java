@@ -1,5 +1,10 @@
 package com.kakaopay.api.helper.util;
 
+import com.kakaopay.api.entity.SprinkleVO;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,5 +23,20 @@ public class SprinkleUtil {
 
         moneyList.add(remain);
         return moneyList;
+    }
+
+    public static boolean isExpireByDay(SprinkleVO sprinkleVO, int day) {
+        return getInterval(sprinkleVO) >= (60 * 60 * 24 * day);
+    }
+
+    public static boolean isExpireByMinutes(SprinkleVO sprinkleVO, int minute) {
+        return getInterval(sprinkleVO) >= (60 * minute);
+    }
+
+    private static long getInterval(SprinkleVO sprinkleVO) {
+        return Duration.between(
+                LocalDateTime.ofInstant(sprinkleVO.getCreateDate().toInstant(), ZoneId.systemDefault()),
+                LocalDateTime.now())
+                        .getSeconds();
     }
 }

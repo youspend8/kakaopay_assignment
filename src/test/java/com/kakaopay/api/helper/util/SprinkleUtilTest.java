@@ -3,19 +3,16 @@ package com.kakaopay.api.helper.util;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Repeat;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @SpringBootTest
 public class SprinkleUtilTest {
-
     private final int money = 200;
     private final int division = 5;
     private List<Integer> moneyList = new ArrayList<>();
@@ -34,7 +31,6 @@ public class SprinkleUtilTest {
     @RepeatedTest(1000)
     @DisplayName("뿌리기 금액 나누기 테스트 - 0원으로 나누어지는 경우 존재여부")
     void divideTestZero() {
-        System.out.println(moneyList);
         assertFalse(moneyList.contains(0));
     }
 

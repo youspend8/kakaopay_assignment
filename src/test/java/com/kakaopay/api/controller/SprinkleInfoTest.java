@@ -1,58 +1,57 @@
 package com.kakaopay.api.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kakaopay.api.helper.response.ResponseCode;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@DisplayName("뿌리기 조회 테스트")
 public class SprinkleInfoTest extends AbstractSprinkleControllerTest {
-    private String token;
-    private String xRoomId = "294583";
-    private String xUserId = "999";
+    private static String token;
+    private static String xRoomId = "294583";
+    private static String xUserId = "999";
 
     @BeforeEach
     void beforeInfo() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/sprinkle/generate")
-                .header("X-ROOM-ID", xRoomId)
-                .header("X-USER-ID", xUserId)
-                .param("money", String.valueOf(1000))
-                .param("division", String.valueOf(2)))
-                        .andExpect(MockMvcResultMatchers.status().isOk())
-                        .andDo(MockMvcResultHandlers.print())
-                        .andReturn();
+        JsonNode resultJson = this.generateSprinkle(xRoomId, xUserId, 1000, 2);
 
-        JsonNode resultJson = convertStringToJson(mvcResult.getResponse().getContentAsString());
         token = resultJson.get("data").asText();
     }
 
     @Test
+    @DisplayName("조회")
     void infoTest() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/sprinkle/info")
-                .characterEncoding("UTF-8")
-                .contentType("application/json; charset=UTF-8")
-                .header("X-ROOM-ID", xRoomId)
-                .header("X-USER-ID", xUserId)
-                .param("token", token))
-                        .andExpect(MockMvcResultMatchers.status().isOk())
-                        .andDo(MockMvcResultHandlers.print())
-                        .andReturn();
-
-        JsonNode resultJson = convertStringToJson(mvcResult.getResponse().getContentAsString());
+        JsonNode resultJson = super.infoSprinkle(xRoomId, xUserId, token);
 
         int responseCode = resultJson.get("code").asInt();
 
         assertEquals(responseCode, ResponseCode.CODE_0.getCode());
+    }
+
+    @Test
+    @DisplayName("내가 뿌린건이 아닌 경우")
+    void infoTestNotSelf() throws Exception {
+        JsonNode resultJson = super.infoSprinkle(xRoomId, "1024", token);
+
+        int responseCode = resultJson.get("code").asInt();
+
+        assertEquals(responseCode, ResponseCode.CODE_25.getCode());
+    }
+
+    @Test
+    @DisplayName("유효하지 않은 토큰값일 경우")
+    void infoTestInvalidToken() throws Exception {
+        JsonNode resultJson = super.infoSprinkle(xRoomId, "1024", "AAA");
+
+        int responseCode = resultJson.get("code").asInt();
+
+        assertEquals(responseCode, ResponseCode.CODE_10.getCode());
     }
 }

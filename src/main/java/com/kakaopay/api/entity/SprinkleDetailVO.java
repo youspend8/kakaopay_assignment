@@ -2,6 +2,7 @@ package com.kakaopay.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
@@ -15,18 +16,18 @@ import javax.persistence.*;
 public class SprinkleDetailVO extends BaseVO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
-
-    private String token;
 
     private Integer divMoney;
 
+    @ColumnDefault("false")
     private Boolean isAcquire;
 
     private String acquiredUserId;
 
     @ManyToOne
-    @JoinColumn(name = "token", insertable = false, updatable = false)
+    @JoinColumn(name = "token")
     @JsonIgnore
     private SprinkleVO sprinkle;
 }
