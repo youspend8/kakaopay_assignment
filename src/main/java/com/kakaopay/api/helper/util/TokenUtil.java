@@ -11,6 +11,10 @@ public class TokenUtil {
     private static final Random random = new Random();
     private static final String str = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+    /**
+     * Token 값 생성하는 Method
+     * @return token
+     */
     public static String generate() {
         return IntStream.range(0, 3)
                 .mapToObj(x -> String.valueOf(getChar()))
