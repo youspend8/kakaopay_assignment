@@ -3,6 +3,9 @@ package com.kakaopay.api.helper.exception;
 import com.kakaopay.api.helper.response.ResponseCode;
 import lombok.Getter;
 
+/**
+ * 뿌리기 공통 처리 결과 Exception
+ */
 @Getter
 public class SprinkleException extends Throwable {
     private int code;
