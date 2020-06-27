@@ -25,10 +25,10 @@
 ```
 $ mvn spring-boot:run
 ```
-##API Reference
+## API Reference
 
 - ###뿌리기 생성
-#####Request
+##### Request
 
 ```
 GET /sprinkle/generate HTTP/1.1
@@ -36,13 +36,13 @@ GET /sprinkle/generate HTTP/1.1
 X-ROOM-ID: XXXXX
 X-USER-ID: XXXXX
 ```
-#####Parameter
+##### Parameter
 |Name|Type|Description|Required|
 |---|:---:|:---|:---:|
 |money|Integer|뿌리기 금액|O|
 |division|Integer|뿌리기 인원|O|
 
-#####Response Example
+##### Response Example
 ```
 {
   "code": 0,
@@ -59,7 +59,7 @@ X-USER-ID: XXXXX
 ***
 
 - ### 뿌리기 줍기
-#####Request
+##### Request
 
 ```
 GET /sprinkle/acquire HTTP/1.1
@@ -67,12 +67,12 @@ GET /sprinkle/acquire HTTP/1.1
 X-ROOM-ID: XXXXX
 X-USER-ID: XXXXX
 ```
-#####Parameter
+##### Parameter
 |Name|Type|Description|Required|
 |:---:|:---:|:---|:---:|
 |token|String|뿌리기 생성시 발급된 코드|O|
 
-#####Response Example
+##### Response Example
 ```
 {
   "code": 0,
@@ -89,7 +89,7 @@ X-USER-ID: XXXXX
 ***
 
 - ### 뿌리기 조회
-#####Request
+##### Request
 
 ```
 GET /sprinkle/info HTTP/1.1
@@ -97,12 +97,12 @@ GET /sprinkle/info HTTP/1.1
 X-ROOM-ID: XXXXX
 X-USER-ID: XXXXX
 ```
-#####Parameter
+##### Parameter
 |Name|Type|Description|Required|
 |:---:|:---:|:---|:---:|
 |token|String|뿌리기 생성시 발급된 코드|O|
 
-#####Response Example
+##### Response Example
 ```
 {
   "code": 0,
@@ -136,7 +136,7 @@ X-USER-ID: XXXXX
 ```
 
 ***
-- ####결과코드
+- #### 결과코드
 
 |code|message|
 |:---:|:---|
@@ -151,7 +151,7 @@ X-USER-ID: XXXXX
 |30|뿌리기 금액은 최소 지정한 인원수 이상이어야 됩니다.|
 
 ***
-##문제해결전략
+## 문제해결전략
 
 >- 설계
 >    - 뿌리기, 받기, 조회 API의 URI Mapping을 각각 `/generate`, `/acquire`, `/info` 로 선언
